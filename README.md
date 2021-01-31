@@ -1,2 +1,3 @@
 # JolJol
-Simple Puzzle Game
+
+Simple Puzzle Game JolJol
