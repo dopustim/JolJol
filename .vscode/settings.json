@@ -1,0 +1,24 @@
+{
+    "files.exclude":
+    {
+        "[Ll]ibrary/":true,
+        "[Tt]emp/":true,
+        "[Oo]bj/":true,
+        "[Bb]uild/":true,
+        "[Bb]uilds/":true,
+        "[Ll]ogs/":true,
+        "[Uu]ser[Ss]ettings/":true,
+        "[Rr]ecordings/":true,
+        "[Mm]emoryCaptures/":true,
+        "**/.gradle/":true,
+        "**/.DS_Store":true,
+        "**/.git":true,
+        "**/.gitmodules":true,
+        "**/*.meta":true,
+        "**/*.sln":true,
+        "**/*.csproj":true,
+        "**/*.dll":true,
+        "**/*.exe":true,
+        "**/*.apk":true
+    }
+}
