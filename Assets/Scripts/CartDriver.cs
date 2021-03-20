@@ -22,7 +22,7 @@ public class CartDriver : MonoBehaviour
     void FixedUpdate()
     {
         if (parkingMode) {
-            updateDirection();
+            UpdateDirection();
             transform.position = Vector3.MoveTowards(transform.position, parkingTo, Time.deltaTime * speed);
             if (transform.position == parkingTo) {
                 parkingMode = false;
@@ -34,7 +34,7 @@ public class CartDriver : MonoBehaviour
         }
     }
 
-    void updateDirection()
+    void UpdateDirection()
     {
         switch (currentCrossroad.actualType)
         {
@@ -104,7 +104,7 @@ public class CartDriver : MonoBehaviour
                 parkingTo = crossroadPosition;
                 moveTo = new Vector3(0, 0, 0);
 
-                updateDirection();
+                UpdateDirection();
 
                 break;
         }
