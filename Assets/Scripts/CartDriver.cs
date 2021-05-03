@@ -2,77 +2,79 @@
 
 public class CartDriver : MonoBehaviour
 {
-    Vector3 cameFrom;
-    Vector3 moveTo;
-    Vector3 parkingTo;
-    bool parkingMode;
-    bool cameToMarketStall;
-    float speed;
-    Crossroad currentCrossroad;
+    Vector3 _moveFrom;
+    Vector3 _moveTo;
+    Vector3 _parkingTo;
+    bool _parkingMode;
+    bool _cameToMarketStall;
+    float _speed;
+    Crossroad _currentCrossroad;
 
     void Start()
     {
-        cameFrom = Vector3.down;
-        moveTo = Vector3.up;
-        parkingMode = false;
-        cameToMarketStall = false;
-        speed = 0.8F;
+        _moveFrom = Vector3.down;
+        _moveTo = Vector3.up;
+        _parkingMode = false;
+        _cameToMarketStall = false;
+        _speed = 0.8F;
     }
 
     void FixedUpdate()
     {
-        if (parkingMode) {
-            UpdateDirection();
-            transform.position = Vector3.MoveTowards(transform.position, parkingTo, Time.deltaTime * speed);
-            if (transform.position == parkingTo) {
-                parkingMode = false;
+        if (_parkingMode) {
+            if (!_cameToMarketStall) {
+                UpdateDirection();
+            }
+            transform.position = Vector3.MoveTowards(transform.position, _parkingTo, Time.deltaTime * _speed);
+            if (transform.position == _parkingTo) {
+                _parkingMode = false;
             }
         } else {
-            if (!cameToMarketStall) {
-                transform.position+= moveTo * Time.deltaTime * speed;
+            if (!_cameToMarketStall) {
+                transform.position+= _moveTo * Time.deltaTime * _speed;
             }
         }
     }
 
     void UpdateDirection()
     {
-        switch (currentCrossroad.actualType)
+        switch (_currentCrossroad.GetActualType())
         {
             case CrossroadType.NE:
-                (moveTo, cameFrom) =
-                    cameFrom == Vector3.up ? (Vector3.right, Vector3.left) :
-                    cameFrom == Vector3.right ? (Vector3.up, Vector3.down) :
-                    (moveTo, cameFrom);
+                (_moveTo, _moveFrom) =
+                    _moveFrom == Vector3.up ? (Vector3.right, Vector3.left) :
+                    _moveFrom == Vector3.right ? (Vector3.up, Vector3.down) :
+                    (_moveTo, _moveFrom);
                 break;
             case CrossroadType.NS:
-                (moveTo, cameFrom) =
-                    cameFrom == Vector3.up ? (Vector3.down, Vector3.up) :
-                    cameFrom == Vector3.down ? (Vector3.up, Vector3.down) :
-                    (moveTo, cameFrom);
+                (_moveTo, _moveFrom) =
+                    _moveFrom == Vector3.up ? (Vector3.down, Vector3.up) :
+                    _moveFrom == Vector3.down ? (Vector3.up, Vector3.down) :
+                    (_moveTo, _moveFrom);
                 break;
             case CrossroadType.NW:
-                (moveTo, cameFrom) =
-                    cameFrom == Vector3.up ? (Vector3.left, Vector3.right) :
-                    cameFrom == Vector3.left ? (Vector3.up, Vector3.down) :
-                    (moveTo, cameFrom);
+                (_moveTo, _moveFrom) =
+                    _moveFrom == Vector3.up ? (Vector3.left, Vector3.right) :
+                    _moveFrom == Vector3.left ? (Vector3.up, Vector3.down) :
+                    (_moveTo, _moveFrom);
                 break;
             case CrossroadType.SE:
-                (moveTo, cameFrom) =
-                    cameFrom == Vector3.down ? (Vector3.right, Vector3.left) :
-                    cameFrom == Vector3.right ? (Vector3.down, Vector3.up) :
-                    (moveTo, cameFrom);
+                (_moveTo, _moveFrom) =
+                    _moveFrom == Vector3.down ? (Vector3.right, Vector3.left) :
+                    _moveFrom == Vector3.right ? (Vector3.down, Vector3.up) :
+                    (_moveTo, _moveFrom);
                 break;
             case CrossroadType.SW:
-                (moveTo, cameFrom) =
-                    cameFrom == Vector3.down ? (Vector3.left, Vector3.right) :
-                    cameFrom == Vector3.left ? (Vector3.down, Vector3.up) :
-                    (moveTo, cameFrom);
+                (_moveTo, _moveFrom) =
+                    _moveFrom == Vector3.down ? (Vector3.left, Vector3.right) :
+                    _moveFrom == Vector3.left ? (Vector3.down, Vector3.up) :
+                    (_moveTo, _moveFrom);
                 break;
             case CrossroadType.WE:
-                (moveTo, cameFrom) =
-                    cameFrom == Vector3.left ? (Vector3.right, Vector3.left) :
-                    cameFrom == Vector3.right ? (Vector3.left, Vector3.right) :
-                    (moveTo, cameFrom);
+                (_moveTo, _moveFrom) =
+                    _moveFrom == Vector3.left ? (Vector3.right, Vector3.left) :
+                    _moveFrom == Vector3.right ? (Vector3.left, Vector3.right) :
+                    (_moveTo, _moveFrom);
                 break;
         }
     }
@@ -85,24 +87,24 @@ public class CartDriver : MonoBehaviour
 
                 Vector3 marketStallPosition = other.gameObject.transform.position;
 
-                parkingMode = true;
-                parkingTo = marketStallPosition;
-                moveTo = new Vector3(0, 0, 0);
+                _parkingMode = true;
+                _parkingTo = marketStallPosition;
+                _moveTo = new Vector3(0, 0, 0);
 
-                cameToMarketStall = true;
+                _cameToMarketStall = true;
 
                 break;
 
             case "Crossroad":
 
-                currentCrossroad = other.gameObject.GetComponent<Crossroad>();
+                _currentCrossroad = other.gameObject.GetComponent<Crossroad>();
 
-                CrossroadType crossroadType = currentCrossroad.actualType;
+                CrossroadType crossroadType = _currentCrossroad.GetActualType();
                 Vector3 crossroadPosition = other.gameObject.transform.position;
 
-                parkingMode = true;
-                parkingTo = crossroadPosition;
-                moveTo = new Vector3(0, 0, 0);
+                _parkingMode = true;
+                _parkingTo = crossroadPosition;
+                _moveTo = new Vector3(0, 0, 0);
 
                 UpdateDirection();
 

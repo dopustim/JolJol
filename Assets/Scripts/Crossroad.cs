@@ -7,18 +7,26 @@ public enum CrossroadType
 
 public class Crossroad : MonoBehaviour
 {
-    public CrossroadType actualType;
-    public Sprite[] crossroadSkins;
+    [SerializeField]
+    Sprite[] _crossroadSkins;
+
+    [SerializeField]
+    CrossroadType _actualType;
 
     void OnMouseDown()
     {
-        actualType+= 1;
-        actualType = (int)actualType > 5 ? 0 : actualType;
-        SetSkin((int)actualType);
+        _actualType+= 1;
+        _actualType = (int)_actualType > 5 ? 0 : _actualType;
+        SetSkin((int)_actualType);
     }
 
     void SetSkin(int id)
     {
-        GetComponent<SpriteRenderer>().sprite = crossroadSkins[id];
+        GetComponent<SpriteRenderer>().sprite = _crossroadSkins[id];
+    }
+
+    public CrossroadType GetActualType()
+    {
+        return _actualType;
     }
 }
